@@ -50,7 +50,7 @@ class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
 			case .success(let holidays):
 				let sentYear = self?.year ?? Constants.currentYear
 				self?.holidays.append(HolidayOfYear(year: sentYear, holidays: holidays))
-				self?.presenter?.handleObtainedResponse(.init(holidayNames: holidays.map(\.name), sentYear: sentYear))
+				self?.presenter?.handleObtainedResponse(.init(holidayNames: holidays.map { $0.localName ?? "" }, sentYear: sentYear))
 			case .failure(let error):
 				self?.presenter?.handleError(error.localizedDescription)
 			}
