@@ -117,8 +117,8 @@ extension HolidaysViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let selectedModel = models[indexPath.section]
-		interactor?.obtainConcreteHoliday(with: selectedModel.holidays[indexPath.row].name, date: selectedModel.holidays[indexPath.row].date)
+		let holliday = models[indexPath.section].holidays[indexPath.row]
+		interactor?.obtainConcreteHoliday(with: holliday.name, date: holliday.date)
 		
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
