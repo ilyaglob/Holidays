@@ -7,14 +7,14 @@ enum Holidays {
         struct Request {}
 
         struct Response {
-			let holidayNames: [String]
+			let holidayNames: [(date: String, name: String)]
 			let sentYear: String
         }
 
         struct ViewModel {
 			struct Displayed {
 				let year: String
-				let holidays: [String]
+				let holidays: [(date: String, name: String)]
 			}
 			
 			let model: Displayed

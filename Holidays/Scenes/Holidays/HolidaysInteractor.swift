@@ -5,17 +5,12 @@ import UIKit
 protocol HolidaysBusinessLogic {
 	func getHolidays()
 	func decrementeYearOffsetAndLoad()
-	func obtainConcreteHoliday(with name: String, year: String)
+	func obtainConcreteHoliday(with name: String, date: String)
 }
 
 protocol HolidaysDataStore {}
 
 class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
-	struct HolidayOfYear {
-		let year: String
-		let holidays: [Holiday]
-	}
-	
 	private struct Constants {
 		static let defaultCode: String = "AT"
 		static let currentYear: String = "\(Calendar.current.component(.year, from: Date()))"
@@ -25,7 +20,7 @@ class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
     var worker: HolidaysWorker?
 	
 	private var yearOffset: Int = 0
-	private var holidays: [HolidayOfYear] = []
+	private var holidays: [Holiday] = []
 	private var year: String = Constants.currentYear
 	
 	private var countryCode: String {
@@ -49,19 +44,19 @@ class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
 			switch result {
 			case .success(let holidays):
 				let sentYear = self?.year ?? Constants.currentYear
-				self?.holidays.append(HolidayOfYear(year: sentYear, holidays: holidays))
-				self?.presenter?.handleObtainedResponse(.init(holidayNames: holidays.map { $0.localName ?? "" }, sentYear: sentYear))
+				
+				self?.holidays.append(contentsOf: holidays)
+				self?.presenter?.handleObtainedResponse(.init(holidayNames: holidays.map { ($0.date, $0.localName ?? "") },
+															  sentYear: sentYear))
 			case .failure(let error):
 				self?.presenter?.handleError(error.localizedDescription)
 			}
 		}
     }
 	
-	func obtainConcreteHoliday(with name: String, year: String) {
+	func obtainConcreteHoliday(with name: String, date: String) {
 		let holiday = holidays
-			.first(where: { $0.year == year })?
-			.holidays
-			.first(where: { $0.localName == name })
+			.first(where: { $0.date == date && $0.localName == name })
 		presenter?.handleObtainedHoliday(holiday: holiday)
 	}
 }
