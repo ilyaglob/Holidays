@@ -28,7 +28,7 @@ class HolidaysRouter: NSObject, HolidaysRoutingLogic, HolidaysDataPassing {
 		let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "Ok", style: .default)
 		alertController.addAction(okAction)
-		viewController?.show(alertController, sender: nil)
+		viewController?.present(alertController, animated: true)
 	}
 }
 
