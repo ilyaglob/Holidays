@@ -43,11 +43,12 @@ class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
 		worker?.obtainHolidays(year: year, countryCode: countryCode) { [weak self] result in
 			switch result {
 			case .success(let holidays):
-				let sentYear = self?.year ?? Constants.currentYear
-				
 				self?.holidays.append(contentsOf: holidays)
-				self?.presenter?.handleObtainedResponse(.init(holidayNames: holidays.map { ($0.date, $0.localName ?? "") },
-															  sentYear: sentYear))
+				
+				let sentYear = self?.year ?? Constants.currentYear
+				let response = Holidays.Persistence.Response(holidayNames: holidays.map { ($0.date, $0.localName ?? "") },
+															 sentYear: sentYear)
+				self?.presenter?.handleObtainedResponse(response)
 			case .failure(let error):
 				self?.presenter?.handleError(error.localizedDescription)
 			}
