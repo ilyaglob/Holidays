@@ -15,10 +15,7 @@ class HolidayDetailsPresenter: HolidayDetailsPresentationLogic {
 
 	func handleObtainedHoliday(response: HolidayDetails.Persistence.Response) {
 		var displayedInfo = response.holiday.date + Constants.separatorSymbols
-		
-		if let localName = response.holiday.localName {
-			displayedInfo += "\(localName)\(Constants.separatorSymbols)"
-		}
+		displayedInfo += "\(response.holiday.name)\(Constants.separatorSymbols)"
 		
 		if let launchYear = response.holiday.launchYear, launchYear != .zero {
 			displayedInfo += "STARTED AT: \(launchYear)\(Constants.separatorSymbols)"
@@ -36,7 +33,7 @@ class HolidayDetailsPresenter: HolidayDetailsPresentationLogic {
 		}
 		
 		let viewModel = HolidayDetails.Persistence.ViewModel(displayedInfo: displayedInfo,
-															 name: response.holiday.name)
+															 name: response.holiday.localName ?? "")
 		viewController?.display(viewModel: viewModel)
     }
 }

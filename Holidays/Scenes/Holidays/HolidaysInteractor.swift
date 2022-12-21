@@ -61,7 +61,7 @@ class HolidaysInteractor: HolidaysBusinessLogic, HolidaysDataStore {
 		let holiday = holidays
 			.first(where: { $0.year == year })?
 			.holidays
-			.first(where: { $0.name == name })
+			.first(where: { $0.localName == name })
 		presenter?.handleObtainedHoliday(holiday: holiday)
 	}
 }
