@@ -110,7 +110,7 @@ extension HolidaysViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = contentTableView.dequeueReusableCell(withIdentifier: Constants.cellReuseId, for: indexPath)
-		cell.textLabel?.text = models[indexPath.section].holidays[indexPath.row]
+		cell.textLabel?.text = models[indexPath.section].holidays[indexPath.row].name
 		cell.backgroundColor = .cyan
 		
 		return cell
@@ -118,7 +118,7 @@ extension HolidaysViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let selectedModel = models[indexPath.section]
-		interactor?.obtainConcreteHoliday(with: selectedModel.holidays[indexPath.row], year: selectedModel.year)
+		interactor?.obtainConcreteHoliday(with: selectedModel.holidays[indexPath.row].name, date: selectedModel.holidays[indexPath.row].date)
 		
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
